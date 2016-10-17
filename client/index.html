@@ -42,20 +42,26 @@
     })
 
     //These are my controllers
-    app.controller('CustomizeUsersController', ['$scope', 'userFactory', function ($scope ,userFactory){
+    app.controller('CustomizeUsersController', ['$scope', 'userFactory', '$location', function ($scope ,userFactory, $location){
       $scope.users = userFactory.getUsers();
 
       $scope.addUsers = function(){
         userFactory.addUsers($scope.newUser);
         $scope.newUser = {};
+        console.log($location);
+        $location.url('/list');
       }
+      //
+      // $scope.createUser = function(){
+      //   $location.url('/list');
+      // }
 
       $scope.deleteUsers = function(index){
         userFactory.deleteUsers(index);
         console.log("delete", index);
       }
     }]);
-    app.controller('UserListsController', ['$scope', 'userFactory', function ($scope, userFactory){
+    app.controller('UserListsController', ['$scope', 'userFactory', function ($scope, userFactory, $location){
       $scope.users = userFactory.getUsers();
     }]);
     </script>
