@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Partial and Custom Users</title>
+    <script src="angular/angular.js"></script>
+    <script src="angular-route/angular-route.js"></script>
+    <script>
+    var app = angular.module('myApp', ['ngRoute']);
+    //These are my routes
+    app.config(function ($routeProvider) {
+      $routeProvider
+        .when('/',{
+          templateUrl: 'partials/customizeUsers.html',
+          controller: 'CustomizeUsersController'
+        })
+        .when('/list',{
+          templateUrl: 'partials/userList.html'
+        })
+        .otherwise({
+          redirectTo: '/'
+        });
+    });
+
+    //These are my factories
+    app.factory('userFactory', function(){
+      var users = [];
+      var factory = {};
+
+      factory.getUsers = function(){
+        return users
+      }
+
+      factory.addUsers = function(newUser){
+        users.push(newUser);
+      }
+
+      factory.deleteUsers = function(index){
+        users.splice(index, 1);
+      }
+      return factory;
+    })
+
+    //These are my controllers
+    app.controller('CustomizeUsersController', ['$scope', 'userFactory', function ($scope ,userFactory){
+      $scope.users = userFactory.getUsers();
+
+      $scope.addUsers = function(){
+        userFactory.addUsers($scope.newUser);
+        $scope.newUser = {};
+      }
+
+      $scope.deleteUsers = function(index){
+        userFactory.deleteUsers(index);
+        console.log("delete", index);
+      }
+    }]);
+    app.controller('UserListsController', ['$scope', 'userFactory', function ($scope, userFactory){
+      $scope.users = userFactory.getUsers();
+    }]);
+    </script>
+  </head>
+  <body ng-app = 'myApp'>
+    <a href = "#/">Customize Users</a> | <a href = "#/list">User List</a>
+    <div ng-view = "">
+    </div>
+  </body>
+</html>

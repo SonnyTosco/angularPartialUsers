@@ -1,0 +1,14 @@
+<div ng-controller = "UserListsController">
+  <table>
+    <tr>
+      <th>Product Name</th>
+      <th>Product Price</th>
+      <th>Remove</th>
+    </tr>
+    <tr ng-repeat = "user in users track by $index">
+      <td>{{ user.firstname }}</td>
+      <td>{{ user.lastname }}</td>
+      <td>{{ user.language }}</td>
+    </tr>
+  </table>
+</div>
